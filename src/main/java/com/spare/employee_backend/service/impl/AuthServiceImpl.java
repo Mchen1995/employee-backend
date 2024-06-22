@@ -17,7 +17,7 @@ public class AuthServiceImpl implements AuthService {
     public static final List<User> USERS = new ArrayList<>();
     // 默认初始用户
     static {
-        USERS.add(new User("admin", "admin"));
+        USERS.add(new User("admin", "admin", "admin@qq.com"));
     }
     @Override
     public Response<String> login(String username, String password) {
@@ -34,6 +34,25 @@ public class AuthServiceImpl implements AuthService {
             return new Response<>(false, "用户名或密码错误", null);
         }
         return new Response<>(true, "登录成功", null);
+    }
 
+    @Override
+    public Response<String> register(String username, String password, String email) {
+        if (StringUtil.isNullOrEmpty(username)
+                || StringUtil.isNullOrEmpty(password)
+                || StringUtil.isNullOrEmpty(email)) {
+            return new Response<>(false, "请检查输入内容", null);
+        }
+        if (!email.contains("@")) {
+            return new Response<>(false, "邮箱格式不正确", null);
+        }
+
+        boolean usernameExisted = USERS.stream().anyMatch(user -> user.getUsername().equals(username));
+        boolean emailExisted = USERS.stream().anyMatch(user -> user.getEmail().equals(email));
+        if (usernameExisted || emailExisted) {
+            return new Response<>(false, "用户名或邮箱已存在", null);
+        }
+        USERS.add(new User(username, password, email));
+        return new Response<>(true, "注册成功", null);
     }
 }

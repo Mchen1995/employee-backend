@@ -16,4 +16,9 @@ public class AuthController {
     public Response<String> login(@RequestParam String username, @RequestParam String password) {
         return authService.login(username, password);
     }
+
+    @PostMapping("/register")
+    public Response<String> register(@RequestParam String username, @RequestParam String password, @RequestParam String email) {
+        return authService.register(username, password, email);
+    }
 }
