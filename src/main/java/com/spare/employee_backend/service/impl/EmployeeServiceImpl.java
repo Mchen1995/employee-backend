@@ -55,4 +55,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         EMPLOYEE_LIST.remove(index);
         return new Response<>(true, "工号" + id + "删除成功", null);
     }
+
+    @Override
+    public Response<String> updateEmployee(Employee newEmployee) {
+        EMPLOYEE_LIST.removeIf(employee -> employee.getId().equals(newEmployee.getId()));
+        EMPLOYEE_LIST.add(newEmployee);
+        return new Response<>(true, "编辑员工" + newEmployee.getId() + "成功", null);
+    }
 }

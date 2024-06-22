@@ -9,4 +9,6 @@ public interface EmployeeService {
     List<Employee> queryEmployees(String id, String name, String gender);
 
     Response<String> deleteEmployees(String id);
+
+    Response<String> updateEmployee(Employee employee);
 }

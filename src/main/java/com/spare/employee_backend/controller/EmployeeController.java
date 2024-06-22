@@ -22,6 +22,11 @@ public class EmployeeController {
         return new Response<>(true, "查询成功", employeeList);
     }
 
+    @PutMapping("/update")
+    public Response<String> updateEmployee(@RequestBody Employee employee) {
+        return employeeService.updateEmployee(employee);
+    }
+
     @DeleteMapping("/delete/{id}")
     public Response<String> deleteEmployees(@PathVariable("id") String id) {
         return employeeService.deleteEmployees(id);
