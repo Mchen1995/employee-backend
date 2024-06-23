@@ -26,4 +26,9 @@ public class RewardPunishmentController {
     public Response<String> deleteRewards(@PathVariable("id") String id) {
         return rewardService.deleteRewards(id);
     }
+
+    @PostMapping("/create")
+    public Response<String> createEmployee(@RequestBody Reward reward) {
+        return rewardService.createReward(reward);
+    }
 }

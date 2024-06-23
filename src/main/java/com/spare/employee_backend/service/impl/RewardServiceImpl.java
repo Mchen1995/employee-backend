@@ -5,10 +5,12 @@ import com.spare.employee_backend.model.Response;
 import com.spare.employee_backend.model.Reward;
 import com.spare.employee_backend.service.RewardService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,18 +18,20 @@ import java.util.stream.Collectors;
 public class RewardServiceImpl implements RewardService {
     public static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     public static final List<Reward> REWARD_LIST = new ArrayList<>();
+
     static {
         try {
             REWARD_LIST.add(
                     new Reward("001", "1001", "扣工资100元", "迟到", sdf.parse("2024-09-10")));
             REWARD_LIST.add(
-                    new Reward("002","1002", "奖励100元", "提前达标", sdf.parse("2024-09-11")));
+                    new Reward("002", "1002", "奖励100元", "提前达标", sdf.parse("2024-09-11")));
             REWARD_LIST.add(
-                    new Reward("003","1002", "扣工资100元", "上班玩手机", sdf.parse("2024-09-12")));
+                    new Reward("003", "1002", "扣工资100元", "上班玩手机", sdf.parse("2024-09-12")));
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
     }
+
     @Override
     public List<Reward> queryRewards(String employeeId, String content, String reason) {
         List<Reward> res = new ArrayList<>(REWARD_LIST);
@@ -56,5 +60,23 @@ public class RewardServiceImpl implements RewardService {
         }
         REWARD_LIST.remove(index);
         return new Response<>(true, "奖惩记录" + id + "删除成功", null);
+    }
+
+    @Override
+    public Response<String> createReward(Reward newReward) {
+        if (newReward == null) {
+            return new Response<>(false, "请检查输入内容", null);
+        }
+        newReward.setRecordDate(new Date());
+        // 自动生成编号
+        if (CollectionUtils.isEmpty(REWARD_LIST)) {
+            newReward.setId("001");
+        } else {
+            int maxId = REWARD_LIST.stream().mapToInt(reward -> Integer.parseInt(reward.getId()))
+                    .max().orElse(0);
+            newReward.setId(String.format("%03d", maxId + 1));
+        }
+        REWARD_LIST.add(newReward);
+        return new Response<>(true, "奖惩记录" + newReward.getId() + "新增成功", null);
     }
 }
