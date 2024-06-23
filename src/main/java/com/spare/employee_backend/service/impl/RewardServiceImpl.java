@@ -1,6 +1,7 @@
 package com.spare.employee_backend.service.impl;
 
 import ch.qos.logback.core.util.StringUtil;
+import com.spare.employee_backend.model.Response;
 import com.spare.employee_backend.model.Reward;
 import com.spare.employee_backend.service.RewardService;
 import org.springframework.stereotype.Service;
@@ -8,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +29,7 @@ public class RewardServiceImpl implements RewardService {
         }
     }
     @Override
-    public List<Reward> queryRewardPunishment(String employeeId, String content, String reason) {
+    public List<Reward> queryRewards(String employeeId, String content, String reason) {
         List<Reward> res = new ArrayList<>(REWARD_LIST);
         if (!StringUtil.isNullOrEmpty(employeeId)) {
             res = res.stream().filter(reward -> reward.getEmployeeId().equals(employeeId)).collect(Collectors.toList());
@@ -41,5 +41,20 @@ public class RewardServiceImpl implements RewardService {
             res = res.stream().filter(reward -> reward.getReason().equals(reason)).collect(Collectors.toList());
         }
         return res;
+    }
+
+    @Override
+    public Response<String> deleteRewards(String id) {
+        if (REWARD_LIST.stream().noneMatch(reward -> reward.getId().equals(id))) {
+            return new Response<>(false, "奖惩记录" + id + "不存在", null);
+        }
+        int index = 0;
+        for (int i = 0; i < REWARD_LIST.size(); i++) {
+            if (REWARD_LIST.get(i).getId().equals(id)) {
+                index = i;
+            }
+        }
+        REWARD_LIST.remove(index);
+        return new Response<>(true, "奖惩记录" + id + "删除成功", null);
     }
 }
