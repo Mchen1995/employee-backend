@@ -48,6 +48,14 @@ public class RewardServiceImpl implements RewardService {
     }
 
     @Override
+    public Response<String> updateReward(Reward newReward) {
+        REWARD_LIST.removeIf(reward -> reward.getId().equals(newReward.getId()));
+        newReward.setRecordDate(new Date());
+        REWARD_LIST.add(newReward);
+        return new Response<>(true, "修改记录成功", null);
+    }
+
+    @Override
     public Response<String> deleteRewards(String id) {
         if (REWARD_LIST.stream().noneMatch(reward -> reward.getId().equals(id))) {
             return new Response<>(false, "奖惩记录" + id + "不存在", null);

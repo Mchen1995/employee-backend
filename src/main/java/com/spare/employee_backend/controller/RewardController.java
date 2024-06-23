@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/reward")
-public class RewardPunishmentController {
+public class RewardController {
     @Autowired
     private RewardService rewardService;
 
@@ -20,6 +20,11 @@ public class RewardPunishmentController {
                                                @RequestParam(required = false) String reason) {
         List<Reward> rewardList = rewardService.queryRewards(employeeId, content, reason);
         return new Response<>(true, "查询成功", rewardList);
+    }
+
+    @PutMapping("/update")
+    public Response<String> updateReward(@RequestBody Reward reward) {
+        return rewardService.updateReward(reward);
     }
 
     @DeleteMapping("/delete/{id}")
