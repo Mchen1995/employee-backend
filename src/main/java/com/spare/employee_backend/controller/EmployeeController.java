@@ -27,6 +27,11 @@ public class EmployeeController {
         return employeeService.updateEmployee(employee);
     }
 
+    @PostMapping("/create")
+    public Response<String> createEmployee(@RequestBody Employee employee) {
+        return employeeService.createEmployee(employee);
+    }
+
     @DeleteMapping("/delete/{id}")
     public Response<String> deleteEmployees(@PathVariable("id") String id) {
         return employeeService.deleteEmployees(id);

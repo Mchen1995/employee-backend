@@ -62,4 +62,16 @@ public class EmployeeServiceImpl implements EmployeeService {
         EMPLOYEE_LIST.add(newEmployee);
         return new Response<>(true, "编辑员工" + newEmployee.getId() + "成功", null);
     }
+
+    @Override
+    public Response<String> createEmployee(Employee newEmployee) {
+        if (newEmployee == null || StringUtil.isNullOrEmpty(newEmployee.getId())) {
+            return new Response<>(false, "请检查输入内容", null);
+        }
+        if (EMPLOYEE_LIST.stream().anyMatch(employee -> employee.getId().equals(newEmployee.getId()))) {
+            return new Response<>(false, "工号" + newEmployee.getId() + "已存在", null);
+        }
+        EMPLOYEE_LIST.add(newEmployee);
+        return new Response<>(true, "创建员工" + newEmployee.getId() + "成功", null);
+    }
 }

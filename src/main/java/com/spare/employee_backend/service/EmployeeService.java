@@ -11,4 +11,5 @@ public interface EmployeeService {
     Response<String> deleteEmployees(String id);
 
     Response<String> updateEmployee(Employee employee);
+    Response<String> createEmployee(Employee employee);
 }
