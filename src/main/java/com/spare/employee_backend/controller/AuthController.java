@@ -17,6 +17,11 @@ public class AuthController {
         return authService.login(username, password);
     }
 
+    @GetMapping("/logout")
+    public Response<String> logout() {
+        return authService.logout();
+    }
+
     @PostMapping("/register")
     public Response<String> register(@RequestParam String username, @RequestParam String password, @RequestParam String email) {
         return authService.register(username, password, email);

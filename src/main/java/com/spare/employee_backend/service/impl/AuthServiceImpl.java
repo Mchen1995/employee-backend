@@ -37,6 +37,11 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    public Response<String> logout() {
+        return new Response<>(true, "登出成功", null);
+    }
+
+    @Override
     public Response<String> register(String username, String password, String email) {
         if (StringUtil.isNullOrEmpty(username)
                 || StringUtil.isNullOrEmpty(password)
