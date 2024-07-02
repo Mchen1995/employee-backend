@@ -22,11 +22,11 @@ public class RewardServiceImpl implements RewardService {
     static {
         try {
             REWARD_LIST.add(
-                    new Reward("001", "1001", "扣工资100元", "迟到", sdf.parse("2024-09-10")));
+                    new Reward("001", "1001", "扣工资100元", "0", sdf.parse("2024-09-10")));
             REWARD_LIST.add(
-                    new Reward("002", "1002", "奖励100元", "提前达标", sdf.parse("2024-09-11")));
+                    new Reward("002", "1002", "奖励100元", "1", sdf.parse("2024-09-11")));
             REWARD_LIST.add(
-                    new Reward("003", "1002", "扣工资100元", "上班玩手机", sdf.parse("2024-09-12")));
+                    new Reward("003", "1002", "扣工资100元", "2", sdf.parse("2024-09-12")));
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
